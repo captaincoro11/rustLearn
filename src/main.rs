@@ -1,16 +1,24 @@
-// working to make a guessing game in Rust
+use std::cmp::Ordering;
 
+// Making a guessing game in Rust
 use rand::Rng;
-
 fn main() {
-    println!("Welcome to the guessing game");
-    println!("Ok let's enter your string here");
-
     let secret_number = rand::thread_rng().gen_range(1..=100);
-    println!("The secret number is {}",secret_number);
 
-    let mut guess = String::new();
-    std::io::stdin().read_line(&mut guess).expect("Failed to read line");
-    println!("You guessed {}",guess);
+    loop {
+        let mut guess = String::new();
+        println!("Enter your guess");
+        std::io::stdin().read_line(& mut guess).expect("Failed to enter a string");
+        let guess : u32 = guess.trim().parse().expect("expecting a number here");
+        
+        match guess.cmp(& secret_number) {
+            Ordering::Less => println!("You're less"),
+            Ordering::Greater => println!("You're greater"),
+            Ordering::Equal => {
+                println!("Right Answer");
+                break;
+            }
+        }
+    }
 
 }
